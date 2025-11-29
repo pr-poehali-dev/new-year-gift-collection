@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Icon from '@/components/ui/icon';
 
 interface Gift {
@@ -49,6 +48,7 @@ const Snowflake = ({ delay }: { delay: number }) => (
 );
 
 export default function Index() {
+  const [activeTab, setActiveTab] = useState<'price' | 'interest' | 'type'>('price');
   const [priceFilter, setPriceFilter] = useState<string>('all');
   const [interestFilter, setInterestFilter] = useState<string>('all');
   const [typeFilter, setTypeFilter] = useState<string>('all');
@@ -147,23 +147,35 @@ export default function Index() {
                 <span>Подборки подарков</span>
               </h2>
 
-              <Tabs defaultValue="price" className="w-full">
-                <TabsList className="grid w-full grid-cols-3 mb-8 h-auto">
-                  <TabsTrigger value="price" className="text-base py-3">
+              <div className="w-full">
+                <div className="grid grid-cols-3 gap-2 mb-8 bg-muted p-2 rounded-lg">
+                  <Button
+                    variant={activeTab === 'price' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('price')}
+                    className="text-base py-6"
+                  >
                     <Icon name="Tag" size={18} className="mr-2" />
                     По цене
-                  </TabsTrigger>
-                  <TabsTrigger value="interest" className="text-base py-3">
+                  </Button>
+                  <Button
+                    variant={activeTab === 'interest' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('interest')}
+                    className="text-base py-6"
+                  >
                     <Icon name="Heart" size={18} className="mr-2" />
                     По интересам
-                  </TabsTrigger>
-                  <TabsTrigger value="type" className="text-base py-3">
+                  </Button>
+                  <Button
+                    variant={activeTab === 'type' ? 'default' : 'ghost'}
+                    onClick={() => setActiveTab('type')}
+                    className="text-base py-6"
+                  >
                     <Icon name="Users" size={18} className="mr-2" />
                     По типу
-                  </TabsTrigger>
-                </TabsList>
+                  </Button>
+                </div>
 
-                <TabsContent value="price" className="space-y-6">
+                {activeTab === 'price' && <div className="space-y-6">
                   <div className="flex flex-wrap gap-3 justify-center mb-6">
                     <Button 
                       variant={priceFilter === 'all' ? 'default' : 'outline'}
@@ -224,9 +236,9 @@ export default function Index() {
                       </Card>
                     ))}
                   </div>
-                </TabsContent>
+                </div>}
 
-                <TabsContent value="interest" className="space-y-6">
+                {activeTab === 'interest' && <div className="space-y-6">
                   <div className="flex flex-wrap gap-3 justify-center mb-6">
                     <Button 
                       variant={interestFilter === 'all' ? 'default' : 'outline'}
@@ -297,9 +309,9 @@ export default function Index() {
                       </Card>
                     ))}
                   </div>
-                </TabsContent>
+                </div>}
 
-                <TabsContent value="type" className="space-y-6">
+                {activeTab === 'type' && <div className="space-y-6">
                   <div className="flex flex-wrap gap-3 justify-center mb-6">
                     <Button 
                       variant={typeFilter === 'all' ? 'default' : 'outline'}
@@ -356,8 +368,8 @@ export default function Index() {
                       </Card>
                     ))}
                   </div>
-                </TabsContent>
-              </Tabs>
+                </div>}
+              </div>
             </div>
           </section>
         </main>
